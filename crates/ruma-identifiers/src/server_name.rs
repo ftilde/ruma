@@ -2,7 +2,7 @@
 
 use ruma_identifiers_validation::server_name::validate;
 
-opaque_identifier_validated! {
+opaque_identifier! {
     /// A Matrix-spec compliant server name.
     pub type ServerName [ validate ];
 }

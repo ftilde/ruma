@@ -2,7 +2,7 @@
 
 use ruma_identifiers_validation::session_id::validate;
 
-opaque_identifier_validated! {
+opaque_identifier! {
     /// A session ID.
     ///
     /// Session IDs in Matrix are opaque character sequences of `[0-9a-zA-Z.=_-]`. Their length must

@@ -2,7 +2,7 @@
 
 use ruma_identifiers_validation::client_secret::validate;
 
-opaque_identifier_validated! {
+opaque_identifier! {
     /// A client secret.
     ///
     /// Client secrets in Matrix are opaque character sequences of `[0-9a-zA-Z.=_-]`. Their length must

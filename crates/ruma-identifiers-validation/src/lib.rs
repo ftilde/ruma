@@ -6,6 +6,7 @@ pub mod device_key_id;
 pub mod error;
 pub mod event_id;
 pub mod key_id;
+pub mod key_name;
 pub mod mxc_uri;
 pub mod room_alias_id;
 pub mod room_id;
@@ -15,8 +16,6 @@ pub mod room_version_id;
 pub mod server_name;
 pub mod session_id;
 pub mod user_id;
-
-use std::num::NonZeroU8;
 
 pub use error::Error;
 
@@ -36,11 +35,16 @@ fn validate_id(id: &str, valid_sigils: &[char]) -> Result<(), Error> {
     Ok(())
 }
 
-/// Checks an identifier that contains a localpart and hostname for validity,
-/// and returns the index of the colon that separates the two.
-fn parse_id(id: &str, valid_sigils: &[char]) -> Result<NonZeroU8, Error> {
+/// Checks an identifier that contains a localpart and hostname for validity.
+fn parse_id(id: &str, valid_sigils: &[char]) -> Result<usize, Error> {
     validate_id(id, valid_sigils)?;
     let colon_idx = id.find(':').ok_or(Error::MissingDelimiter)?;
     server_name::validate(&id[colon_idx + 1..])?;
-    Ok(NonZeroU8::new(colon_idx as u8).unwrap())
+    Ok(colon_idx)
+}
+
+/// Checks an identifier that contains a localpart and hostname for validity.
+fn validate_delimited_id(id: &str, valid_sigils: &[char]) -> Result<(), Error> {
+    parse_id(id, valid_sigils)?;
+    Ok(())
 }
